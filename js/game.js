@@ -17,7 +17,7 @@ const config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-    }
+    },
 }
 const game = new Phaser.Game(config)
 //console.log(game)
