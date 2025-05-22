@@ -5,7 +5,7 @@ class SplashScene extends Phaser.Scene {
     }
 
     init(data) {
-      this.cameras.main.setBackgroundColor("ffffff")
+      this.cameras.main.setBackgroundColor("1edc5a")
         }
     
     preload() {
