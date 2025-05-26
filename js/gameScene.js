@@ -13,7 +13,7 @@ class GameScene extends Phaser.Scene {
     preload() {
         console.log('Game Scene')
         
-        this.load.image('starBackground', 'assets/StarBackground.png')
+        this.load.image('starBackground', 'assets/starBackground.png')
         this.load.image('ship', 'assets/spaceShip.png')
     }
     create(data) {
