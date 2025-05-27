@@ -16,6 +16,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('starBackground', 'assets/starBackground.png')
         this.load.image('ship', 'assets/spaceShip.png')
         this.load.image('missile', 'assets/missile.png')
+        this.load.audio('laser', 'assets/laser1.wav')
     }
     create(data) {
         this.background = this.add.image(0, 0, 'starBackground').setScale(2.0)
@@ -43,7 +44,7 @@ class GameScene extends Phaser.Scene {
             if (this.ship.x > 1920) {
                 this.ship.x = 1920
             }
-          }
+        }
         if (keySpaceObj.isDown === true) {
             if (this.fireMissile === false) {
                 this.fireMissile = true
@@ -52,7 +53,13 @@ class GameScene extends Phaser.Scene {
         }
         if (keySpaceObj.isUp === true) {
             this.fireMissile = false
-          }
+        }
+        this.missileGroup.children.each(function (item)) {
+            item.y = item.y - 15
+            if (item.y < 0) {
+                item.destroy()
+                }
+            }
         }
       }
     export default GameScene
