@@ -1,5 +1,11 @@
 
 class GameScene extends Phaser.Scene {
+
+    createAlien() {
+        const alienXLocation = Math.floor(Math.random() * 1920) + 1 
+        let alienXVelocity = Math.floor(Math.random() * 50) + 1
+        alienXVelocity *=
+    }
     constructor() {
         super({ key: 'gameScene' })
 
@@ -31,9 +37,24 @@ class GameScene extends Phaser.Scene {
         const keyLeftObj = this.input.keyboard.addKey('LEFT')
         const keyRightObj = this.input.keyboard.addKey('RIGHT')
         const keySpaceObj = this.input.keyboard.addKey('SPACE')
+        const keUpObj = this.input.keyboard.addKey('UP')
+        const keDownObj = this.input.keyboard.addKey('DOWN')
+
 
         if (keyLeftObj.isDown === true) {
             this.ship.x -= 15
+            if (this.ship.x < 0) {
+                this.ship.x = 0
+            }
+        }
+        if (keyUpObj.isDown === true) {
+            this.ship.y += 15
+            if (this.ship.x < 0) {
+                this.ship.x = 0
+            }
+        }
+        if (keyLeftObj.isDown === true) {
+            this.ship.y -= 15
             if (this.ship.x < 0) {
                 this.ship.x = 0
             }
