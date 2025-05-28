@@ -56,13 +56,13 @@ class GameScene extends Phaser.Scene {
             }
         }
         if (keyUpObj.isDown === true) {
-            this.ship.y += 15
+            this.ship.y -= 15
             if (this.ship.y < 0) {
                 this.ship.y = 0
             }
         }
         if (keyDownObj.isDown === true) {
-            this.ship.y -= 15
+            this.ship.y += 15
             if (this.ship.y < 0) {
                 this.ship.y = 0
             }
