@@ -106,7 +106,6 @@ class GameScene extends Phaser.Scene {
                 this.ship.x = 1920
             }
         }
-        if (this.gameOver === false) {
             if (keySpaceObj.isDown === true) {
                 if (this.fireMissile === false) {
                     this.fireMissile = true
@@ -115,8 +114,6 @@ class GameScene extends Phaser.Scene {
                     this.sound.play('laser')
                 }
             }
-        }
-        else {this.fireMissile === false}
         if (keySpaceObj.isUp === true) {
             this.fireMissile = false
         }
@@ -124,7 +121,8 @@ class GameScene extends Phaser.Scene {
             item.y = item.y - 15
             if (item.y < 0) {
                 item.destroy()
-                }
+            }
+            if (this.gameOver === true) {item.destroy()}
             })
         }
       }
