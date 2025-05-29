@@ -114,7 +114,7 @@ class GameScene extends Phaser.Scene {
                 this.sound.play('laser')
             }
         }
-        else {keySpaceObj.isUp}
+        else {keySpaceObj.isUp === true}
         if (keySpaceObj.isUp === true) {
             this.fireMissile = false
         }
