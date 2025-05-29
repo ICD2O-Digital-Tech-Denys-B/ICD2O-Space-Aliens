@@ -69,7 +69,7 @@ class GameScene extends Phaser.Scene {
             shipCollide.destroy()
             this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
             this.gameOverText.setInteractive({ useHandCursor: true })
-            this.gameOverText.on('pointerdown', () => this.scene.restart('gameScene'), this.gameOver === false)
+            this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'), this.gameOver === false)
         }.bind(this))
     }
     update(time, delta) {
@@ -106,7 +106,7 @@ class GameScene extends Phaser.Scene {
                 this.ship.x = 1920
             }
         }
-            if (keySpaceObj.isDown === true) {
+            if (keySpaceObj.isDown === true && this.gameOver === true) {
                 if (this.fireMissile === false) {
                     this.fireMissile = true
                     const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
@@ -122,7 +122,6 @@ class GameScene extends Phaser.Scene {
             if (item.y < 0) {
                 item.destroy()
             }
-            if (this.gameOver === true) {item.destroy()}
             })
         }
       }
