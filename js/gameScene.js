@@ -49,25 +49,18 @@ class GameScene extends Phaser.Scene {
 
         this.alienGroup = this.add.group()
         this.createAlien()
-        //in create(data)
-        //change
-        this.physics.add.collider(this.missileGroup, this.alienGroup, function (missileCollide, alienCollide) {
-            alienCollide.destroy()
-            missileCollide.destroy()
-            this.sound.play('explosion')
-            this.createAlien()
-            this.createAlien()
-        }.bind(this))
-        //to 
+
         this.physics.add.overlap(this.missileGroup, this.alienGroup, function (missileCollide, alienCollide) {
             alienCollide.destroy()
             missileCollide.destroy()
             this.sound.play('explosion')
+            this.score = this.score + 1
+            this.scoreText.setText('Score:' + this.score.toString())
             this.createAlien()
             this.createAlien()
         }.bind(this))
 
-        this.physics.add.collider(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
+        this.physics.add.overlap(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
             this.sound.play('bomb')
             this.physics.pause()
             alienCollide.destroy()
