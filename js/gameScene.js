@@ -105,14 +105,14 @@ class GameScene extends Phaser.Scene {
             }
         }
         if (keySpaceObj.isDown === true) {
-            if (this.physics.add.overlap(this.ship, this.alienGroup), this.fireMissile === true) {
-                this.fireMissile === false
-            }
             if (this.fireMissile === false) {
                 this.fireMissile = true
                 const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
                 this.missileGroup.add(aNewMissile)
                 this.sound.play('laser')
+            }
+            if (this.physics.add.overlap(this.ship, this.alienGroup), this.fireMissile === true) {
+                this.fireMissile === false
             }
         }
         if (keySpaceObj.isUp === true) {
