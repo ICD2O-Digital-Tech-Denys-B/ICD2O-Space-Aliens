@@ -115,7 +115,8 @@ class GameScene extends Phaser.Scene {
         if (keySpaceObj.isUp === true) {
             this.fireMissile = false
         }
-        if (shipCollide.destroy() === true) {
+        if (keySpaceObj.isDown === true) {
+            if (this.physics.add.overlap(this.ship, this.alienGroup) === true)
             this.fireMissile === false
         }
         this.missileGroup.children.each(function (item) {
