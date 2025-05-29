@@ -68,7 +68,6 @@ class GameScene extends Phaser.Scene {
             this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
             this.gameOverText.setInteractive({ useHandCursor: true })
             this.gameOverText.on('pointerdown', () => this.scene.restart('gameScene'))
-            this.fireMissile === false
         }.bind(this))
     }
     update(time, delta) {
@@ -106,6 +105,9 @@ class GameScene extends Phaser.Scene {
             }
         }
         if (keySpaceObj.isDown === true) {
+            if (this.physics.add.overlap(this.ship, this.alienGroup), this.fireMissile === true) {
+                this.fireMissile === false
+            }
             if (this.fireMissile === false) {
                 this.fireMissile = true
                 const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
