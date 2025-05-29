@@ -62,14 +62,14 @@ class GameScene extends Phaser.Scene {
         }.bind(this))
 
         this.physics.add.overlap(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
-            this.GameOver = true
+            this.GameOver === true
             this.sound.play('bomb')
             this.physics.pause()
             alienCollide.destroy()
             shipCollide.destroy()
             this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
             this.gameOverText.setInteractive({ useHandCursor: true })
-            this.gameOverText.on('pointerdown', () => this.scene.restart('gameScene'), this.GameOver = false)
+            this.gameOverText.on('pointerdown', () => this.scene.restart('gameScene'), this.GameOver === false)
         }.bind(this))
     }
     update(time, delta) {
