@@ -107,7 +107,7 @@ class GameScene extends Phaser.Scene {
             }
         }
         if (keySpaceObj.isDown === true && gameEnd === false) {
-            console.log("Space key pressed and gameEnd is false.")    
+            console.log('Space key pressed and gameEnd is false.')    
             if (this.fireMissile === false) {
                 this.fireMissile = true
                 const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
