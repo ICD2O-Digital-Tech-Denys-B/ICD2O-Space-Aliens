@@ -62,18 +62,22 @@ class GameScene extends Phaser.Scene {
         }.bind(this))
 
         this.physics.add.overlap(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
-            gameEnd = true
+            this.gameEnd = true
             this.sound.play('bomb')
             this.physics.pause()
             alienCollide.destroy()
             shipCollide.destroy()
             this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
             this.gameOverText.setInteractive({ useHandCursor: true })
-            this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'), gameEnd = false, this.score = this.score - this.score)
+            this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'), this.gameEnd = false, this.score = this.score - this.score)
 
         }.bind(this))
     }
     update(time, delta) {
+
+        if (this.gameEnd) {
+            return
+        }
         
         const keyLeftObj = this.input.keyboard.addKey('LEFT')
         const keyRightObj = this.input.keyboard.addKey('RIGHT')
@@ -107,7 +111,7 @@ class GameScene extends Phaser.Scene {
                 this.ship.x = 1920
             }
         }
-        if (keySpaceObj.isDown === true && gameEnd === false) {
+        if (keySpaceObj.isDown === true && this.gameEnd === false) {
             if (this.fireMissile === false) {
                 this.fireMissile = true
                 const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
