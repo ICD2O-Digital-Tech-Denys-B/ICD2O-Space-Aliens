@@ -20,7 +20,6 @@ class GameScene extends Phaser.Scene {
         this.scoreText = null
         this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' }
         this.gameOverTextStyle = { font: '65px Arial', fill: '#ff0000', align: 'center' }
-        gameOver = false
     }
 
     init(data) {
@@ -52,7 +51,6 @@ class GameScene extends Phaser.Scene {
         this.createAlien()
 
         this.physics.add.overlap(this.missileGroup, this.alienGroup, function (missileCollide, alienCollide) {
-            gameOver = true
             alienCollide.destroy()
             missileCollide.destroy()
             this.sound.play('explosion')
@@ -70,7 +68,7 @@ class GameScene extends Phaser.Scene {
             shipCollide.destroy()
             this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
             this.gameOverText.setInteractive({ useHandCursor: true })
-            this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'), gameOver = false)
+            this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'))
         }.bind(this))
     }
     update(time, delta) {
@@ -80,6 +78,7 @@ class GameScene extends Phaser.Scene {
         const keySpaceObj = this.input.keyboard.addKey('SPACE')
         const keyUpObj = this.input.keyboard.addKey('UP')
         const keyDownObj = this.input.keyboard.addKey('DOWN')
+        let gameOver = shipCollide.destroy()
 
         if (keyLeftObj.isDown === true) {
             this.ship.x -= 15
