@@ -86,9 +86,6 @@ class GameScene extends Phaser.Scene {
     update(time, delta) {
 
         if (this.gameEnd === false) {
-            return
-        
-        
         if (keyLeftObj.isDown === true) {
             this.ship.x -= 15
             if (this.ship.x < 0) {
