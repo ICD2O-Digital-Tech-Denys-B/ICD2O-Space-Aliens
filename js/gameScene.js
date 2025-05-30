@@ -24,6 +24,7 @@ class GameScene extends Phaser.Scene {
     }
 
     init(data) {
+        console.log("init(data)")
         this.cameras.main.setBackgroundColor('#ffffff')
     }
     preload() {
@@ -68,6 +69,7 @@ class GameScene extends Phaser.Scene {
         }.bind(this))
 
         this.physics.add.overlap(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
+            console.log("GameEnd set to true")
             this.gameEnd = true
             this.sound.play('bomb')
             this.physics.pause()
@@ -85,7 +87,8 @@ class GameScene extends Phaser.Scene {
     }
     update(time, delta) {
 
-        if (this.gameEnd === false) {
+       
+
         if (keyLeftObj.isDown === true) {
             this.ship.x -= 15
             if (this.ship.x < 0) {
@@ -111,13 +114,15 @@ class GameScene extends Phaser.Scene {
                 this.ship.x = 1920
             }
         }
-        if (this.keySpaceObj.isDown && !this.fireMissile) {
+        if (this.keySpaceObj.isDown && !this.fireMissile == false &&
+            this.gameEnd == false) {
             this.fireMissile = true
             const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
             this.missileGroup.add(aNewMissile)
             this.sound.play('laser')
             console.log('Space key pressed and gameEnd is false.')
         }
+        
         if (keySpaceObj.isUp === true) {
             this.fireMissile = false
         }
@@ -129,5 +134,5 @@ class GameScene extends Phaser.Scene {
             })
         }
     }
-      }
+      
     export default GameScene
