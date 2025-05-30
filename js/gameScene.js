@@ -39,6 +39,12 @@ class GameScene extends Phaser.Scene {
         this.load.audio('bomb', 'assets/bomb.wav')
     }
     create(data) {
+        const keyLeftObj = this.input.keyboard.addKey('LEFT')
+        const keyRightObj = this.input.keyboard.addKey('RIGHT')
+        const keySpaceObj = this.input.keyboard.addKey('SPACE')
+        const keyUpObj = this.input.keyboard.addKey('UP')
+        const keyDownObj = this.input.keyboard.addKey('DOWN')
+
         this.background = this.add.image(0, 0, 'starBackground').setScale(2.0)
         this.background.setOrigin(0, 0)
         
@@ -69,23 +75,20 @@ class GameScene extends Phaser.Scene {
             shipCollide.destroy()
             this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
             this.gameOverText.setInteractive({ useHandCursor: true })
-            this.gameOverText.on('pointerdown', () => this.scene.start('gameScene'), this.gameEnd = false, this.score = this.score - this.score)
+            this.gameOverText.on('pointerdown', () => {
+                this.scene.start('gameScene'),
+                this.gameEnd = false,
+                this.score = 0
+            })
 
         }.bind(this))
     }
     update(time, delta) {
 
-        if (this.gameEnd) {
+        if (this.gameEnd === false) {
             return
-        }
         
-        const keyLeftObj = this.input.keyboard.addKey('LEFT')
-        const keyRightObj = this.input.keyboard.addKey('RIGHT')
-        const keySpaceObj = this.input.keyboard.addKey('SPACE')
-        const keyUpObj = this.input.keyboard.addKey('UP')
-        const keyDownObj = this.input.keyboard.addKey('DOWN')
         
-
         if (keyLeftObj.isDown === true) {
             this.ship.x -= 15
             if (this.ship.x < 0) {
@@ -111,14 +114,12 @@ class GameScene extends Phaser.Scene {
                 this.ship.x = 1920
             }
         }
-        if (keySpaceObj.isDown === true && !this.gameEnd === false) {
-            if (!this.fireMissile === false) {
-                this.fireMissile = true
-                const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
-                this.missileGroup.add(aNewMissile)
-                this.sound.play('laser')
-                console.log('Space key pressed and gameEnd is false.')
-            }
+        if (this.keySpaceObj.isDown && !this.fireMissile) {
+            this.fireMissile = true
+            const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
+            this.missileGroup.add(aNewMissile)
+            this.sound.play('laser')
+            console.log('Space key pressed and gameEnd is false.')
         }
         if (keySpaceObj.isUp === true) {
             this.fireMissile = false
@@ -130,5 +131,6 @@ class GameScene extends Phaser.Scene {
             }
             })
         }
+    }
       }
     export default GameScene
