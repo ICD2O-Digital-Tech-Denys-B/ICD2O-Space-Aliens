@@ -107,12 +107,12 @@ class GameScene extends Phaser.Scene {
             }
         }
         if (keySpaceObj.isDown === true && gameEnd === false) {
-            console.log('Space key pressed and gameEnd is false.')    
             if (this.fireMissile === false) {
                 this.fireMissile = true
                 const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
                 this.missileGroup.add(aNewMissile)
                 this.sound.play('laser')
+                console.log('Space key pressed and gameEnd is false.')
             }
         }
         if (keySpaceObj.isUp === true) {
