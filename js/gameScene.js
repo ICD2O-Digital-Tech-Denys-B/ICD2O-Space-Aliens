@@ -40,11 +40,6 @@ class GameScene extends Phaser.Scene {
         this.load.audio('bomb', 'assets/bomb.wav')
     }
     create(data) {
-        const keyLeftObj = this.input.keyboard.addKey('LEFT')
-        const keyRightObj = this.input.keyboard.addKey('RIGHT')
-        const keySpaceObj = this.input.keyboard.addKey('SPACE')
-        const keyUpObj = this.input.keyboard.addKey('UP')
-        const keyDownObj = this.input.keyboard.addKey('DOWN')
 
         this.background = this.add.image(0, 0, 'starBackground').setScale(2.0)
         this.background.setOrigin(0, 0)
@@ -87,7 +82,11 @@ class GameScene extends Phaser.Scene {
     }
     update(time, delta) {
 
-       
+        const keyLeftObj = this.input.keyboard.addKey('LEFT')
+        const keyRightObj = this.input.keyboard.addKey('RIGHT')
+        const keySpaceObj = this.input.keyboard.addKey('SPACE')
+        const keyUpObj = this.input.keyboard.addKey('UP')
+        const keyDownObj = this.input.keyboard.addKey('DOWN')
 
         if (keyLeftObj.isDown === true) {
             this.ship.x -= 15
