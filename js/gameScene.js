@@ -90,26 +90,26 @@ class GameScene extends Phaser.Scene {
         const keyDownObj = this.input.keyboard.addKey('DOWN')
 
         if (keyLeftObj.isDown === true) {
-            this.ship.x -= 15
+            this.ship.x = this.ship.x - 15
             if (this.ship.x < 0) {
                 this.ship.x = 0
             }
         }
         if (keyUpObj.isDown === true) {
-            this.ship.y -= 15
+            this.ship.y = this.ship.y - 15
             if (this.ship.y < 0) {
                 this.ship.y = 0
             }
         }
         if (keyDownObj.isDown === true) {
-            this.ship.y += 15
+            this.ship.y = this.ship.y + 15
             if (this.ship.y < 0) {
                 this.ship.y = 0
             }
         }
 
         if (keyRightObj.isDown === true) {
-            this.ship.x += 15
+            this.ship.x = this.ship.x + 15
             if (this.ship.x > 1920) {
                 this.ship.x = 1920
             }
