@@ -29,7 +29,7 @@ class GameScene extends Phaser.Scene {
     }
     preload() {
         console.log('Game Scene')
-        
+        this.score = 0
         this.load.image('starBackground', 'assets/starBackground.png')
         this.load.image('ship', 'assets/spaceShip.png')
         this.load.image('missile', 'assets/missile.png')
@@ -40,7 +40,7 @@ class GameScene extends Phaser.Scene {
         this.load.audio('bomb', 'assets/bomb.wav')
     }
     create(data) {
-
+        this.gameEnd = false
         this.background = this.add.image(0, 0, 'starBackground').setScale(2.0)
         this.background.setOrigin(0, 0)
         
