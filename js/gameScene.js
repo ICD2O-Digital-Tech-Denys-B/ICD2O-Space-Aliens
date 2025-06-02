@@ -40,7 +40,7 @@ class GameScene extends Phaser.Scene {
         this.load.audio('bomb', 'assets/bomb.wav')
     }
     create(data) {
-        //this.gameEnd = false
+        this.gameEnd = false
         this.score = 0
         this.background = this.add.image(0, 0, 'starBackground').setScale(2.0)
         this.background.setOrigin(0, 0)
@@ -114,7 +114,7 @@ class GameScene extends Phaser.Scene {
                 this.ship.x = 1920
             }
         }
-        if (this.keySpaceObj.isDown && !this.gameEnd == false) {
+        if (this.keySpaceObj.isDown === true && !this.gameEnd == false) {
             if (this.fireMissile === false) {
                 this.fireMissile = true
                 const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
