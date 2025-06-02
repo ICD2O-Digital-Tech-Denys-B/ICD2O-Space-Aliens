@@ -41,6 +41,7 @@ class GameScene extends Phaser.Scene {
     }
     create(data) {
         this.gameEnd = false
+        this.score = 0
         this.background = this.add.image(0, 0, 'starBackground').setScale(2.0)
         this.background.setOrigin(0, 0)
         
@@ -113,13 +114,14 @@ class GameScene extends Phaser.Scene {
                 this.ship.x = 1920
             }
         }
-        if (this.keySpaceObj.isDown && !this.fireMissile == false &&
-            this.gameEnd == false) {
-            this.fireMissile = true
-            const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
-            this.missileGroup.add(aNewMissile)
-            this.sound.play('laser')
-            console.log('Space key pressed and gameEnd is false.')
+        if (this.keySpaceObj.isDown && !this.gameEnd == false) {
+            if (this.fireMissile === false) {
+                this.fireMissile = true
+                const aNewMissile = this.physics.add.sprite(this.ship.x, this.ship.y, 'missile')
+                this.missileGroup.add(aNewMissile)
+                this.sound.play('laser')
+                console.log('Space key pressed and gameEnd is false.')
+            }
         }
         
         if (keySpaceObj.isUp === true) {
