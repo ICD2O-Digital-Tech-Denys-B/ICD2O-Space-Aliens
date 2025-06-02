@@ -40,7 +40,7 @@ class GameScene extends Phaser.Scene {
         this.load.audio('bomb', 'assets/bomb.wav')
     }
     create(data) {
-        this.gameEnd = false
+        //this.gameEnd = false
         this.score = 0
         this.background = this.add.image(0, 0, 'starBackground').setScale(2.0)
         this.background.setOrigin(0, 0)
