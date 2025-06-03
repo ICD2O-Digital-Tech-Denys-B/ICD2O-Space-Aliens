@@ -86,10 +86,17 @@ class GameScene extends Phaser.Scene {
         delay: 2000,
         callback: () => {
         if (this.alienGroup.getChildren().length > 0 && this.gameEnd === false) {
-                const randomAlien = Phaser.Utils.Array.GetRandom(this.alienGroup.getChildren())
-                const bullet = this.physics.add.sprite(randomAlien.x, randomAlien.y, 'alienLaser').setScale(0.13)
-                bullet.body.velocity.y = 200
-            this.alienBulletGroup.add(bullet)
+            const aliens = this.alienGroup.getChildren()
+            const numShooters = Phaser.Math.Between(1, Math.min(aliens.length, 10))
+            
+            Phaser.Utils.Array.Shuffle(aliens)
+                .slice(0, numShooters)
+                .forEach(alien => {
+                    const bullet = this.physics.add.sprite(alien.x, alien.y, 'alienLaser').setScale(0.13)
+                    bullet.body.velocity.y = 200
+                    this.alienBulletGroup.add(bullet)
+                })
+            
             }
         },
         loop: true
