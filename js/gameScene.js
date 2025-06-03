@@ -29,11 +29,11 @@ class GameScene extends Phaser.Scene {
     }
     preload() {
         console.log('Game Scene')
-        //***  this.score = 0
         this.load.image('starBackground', 'assets/starBackground.png')
         this.load.image('ship', 'assets/spaceShip.png')
         this.load.image('missile', 'assets/missile.png')
         this.load.image('alien', 'assets/alien.png')
+        this.load.image('alienLaser', 'assets/alienLaser.png')
         //audio
         this.load.audio('laser', 'assets/laser1.wav')
         this.load.audio('explosion', 'assets/barrelExploding.wav')
@@ -80,6 +80,34 @@ class GameScene extends Phaser.Scene {
             })
 
         }.bind(this))
+        this.alienBulletGroup = this.physics.add.group()
+
+        this.time.addEvent({
+        delay: 2000,
+        callback: () => {
+        if (this.alienGroup.getChildren().length > 0 && !this.gameEnd) {
+                const randomAlien = Phaser.Utils.Array.GetRandom(this.alienGroup.getChildren())
+                const bullet = this.physics.add.sprite(randomAlien.x, randomAlien.y, 'alienLaser')
+                bullet.body.velocity.y = 200
+            this.alienBulletGroup.add(bullet)
+            }
+        },
+        loop: true
+        })
+        this.physics.add.overlap(this.ship, this.alienBulletGroup, function (shipHit, bulletHit) {
+            this.gameEnd = true
+            this.sound.play('bomb')
+            this.physics.pause()
+            bulletHit.destroy()
+            shipHit.destroy()
+            this.gameOverText = this.add.text(1920 / 2, 1080 / 2, 'Game Over!\nClick to play again.', this.gameOverTextStyle).setOrigin(0.5)
+            this.gameOverText.setInteractive({ useHandCursor: true })
+            this.gameOverText.on('pointerdown', () => {
+                this.scene.start('gameScene')
+            })
+        }.bind(this))
+        
+
     }
     update(time, delta) {
 
@@ -132,7 +160,20 @@ class GameScene extends Phaser.Scene {
             if (item.y < 0) {
                 item.destroy()
             }
-            })
+        })
+        this.alienBulletGroup.children.each(function (bullet) {
+            bullet.y += 10
+            if (bullet.y > 1080) {
+                bullet.destroy()
+            }
+        })
+        this.alienGroup.getChildren().forEach(function (alien) {
+            if (alien.y > 1080) {
+                alien.destroy()
+                this.createAlien()
+            }
+        }, this)
+        
         }
     }
       
