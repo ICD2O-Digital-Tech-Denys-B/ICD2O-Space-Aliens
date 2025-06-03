@@ -85,9 +85,9 @@ class GameScene extends Phaser.Scene {
         this.time.addEvent({
         delay: 2000,
         callback: () => {
-        if (this.alienGroup.getChildren().length > 0 && !this.gameEnd) {
+        if (this.alienGroup.getChildren().length > 0 && this.gameEnd === false) {
                 const randomAlien = Phaser.Utils.Array.GetRandom(this.alienGroup.getChildren())
-                const bullet = this.physics.add.sprite(randomAlien.x, randomAlien.y, 'alienLaser')
+                const bullet = this.physics.add.sprite(randomAlien.x, randomAlien.y, 'alienLaser').setScale(0.13)
                 bullet.body.velocity.y = 200
             this.alienBulletGroup.add(bullet)
             }
