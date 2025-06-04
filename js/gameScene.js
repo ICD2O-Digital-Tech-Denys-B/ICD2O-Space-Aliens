@@ -38,8 +38,6 @@ class GameScene extends Phaser.Scene {
         this.load.audio('laser', 'assets/laser1.wav')
         this.load.audio('explosion', 'assets/barrelExploding.wav')
         this.load.audio('bomb', 'assets/bomb.wav')
-        //animations
-        this.load.spritesheet('explosionAnimation', 'assets/explosionSheet.png', { frameWidth: 64, frameHeight: 64 });
 
     }
     create(data) {
@@ -56,14 +54,6 @@ class GameScene extends Phaser.Scene {
 
         this.alienGroup = this.add.group()
         this.createAlien()
-        //explosion animation 
-        this.anims.create({
-            key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosionAnimation', { start: 0, end: 15 }),
-            frameRate: 24,
-            repeat: 0,
-            hideOnComplete: true
-        });
         
         //alien and the bullets collide
         this.physics.add.overlap(this.missileGroup, this.alienGroup, function (missileCollide, alienCollide) {
@@ -128,8 +118,6 @@ class GameScene extends Phaser.Scene {
         }.bind(this))
         //alien laser and player missile collide
         this.physics.add.overlap(this.missileGroup, this.alienBulletGroup, function(missile, alienLaser) {
-            const explosion = this.add.sprite(missile.x, missile.y, 'explosionAnimation');
-            explosion.play('explode');
             missile.destroy();
             alienLaser.destroy();
             this.sound.play('explosion');
