@@ -117,7 +117,7 @@ class GameScene extends Phaser.Scene {
             })
         }.bind(this))
         //alien laser and player missile collide
-        this.physics.add.overlap(this.missileGroup, this.alienBulletGroup, function(missile, alienLaser) {
+        this.physics.add.collider(this.missileGroup, this.alienBulletGroup, function(missile, alienLaser) {
             missile.destroy();
             alienLaser.destroy();
             this.sound.play('explosion');
