@@ -38,6 +38,9 @@ class GameScene extends Phaser.Scene {
         this.load.audio('laser', 'assets/laser1.wav')
         this.load.audio('explosion', 'assets/barrelExploding.wav')
         this.load.audio('bomb', 'assets/bomb.wav')
+        //animations
+        this.load.spritesheet('explosionAnimation', 'assets/explosionSheet.png', { frameWidth: 64, frameHeight: 64 });
+
     }
     create(data) {
         this.gameEnd = false
@@ -53,7 +56,16 @@ class GameScene extends Phaser.Scene {
 
         this.alienGroup = this.add.group()
         this.createAlien()
-
+        //explosion animation 
+        this.anims.create({
+            key: 'explode',
+            frames: this.anims.generateFrameNumbers('explosionAnimation', { start: 0, end: 15 }),
+            frameRate: 24,
+            repeat: 0,
+            hideOnComplete: true
+        });
+        
+        //alien and the bullets collide
         this.physics.add.overlap(this.missileGroup, this.alienGroup, function (missileCollide, alienCollide) {
             alienCollide.destroy()
             missileCollide.destroy()
@@ -63,7 +75,7 @@ class GameScene extends Phaser.Scene {
             this.createAlien()
             this.createAlien()
         }.bind(this))
-
+        //aliens and the player collide
         this.physics.add.overlap(this.ship, this.alienGroup, function (shipCollide, alienCollide) {
             console.log("GameEnd set to true")
             this.gameEnd = true
@@ -75,32 +87,33 @@ class GameScene extends Phaser.Scene {
             this.gameOverText.setInteractive({ useHandCursor: true })
             this.gameOverText.on('pointerdown', () => {
                 this.scene.start('gameScene'),
-                this.gameEnd = false,
-                this.score = 0
+                    this.gameEnd = false,
+                    this.score = 0
             })
 
         }.bind(this))
+        //aliens shoot
         this.alienBulletGroup = this.physics.add.group()
-
         this.time.addEvent({
-        delay: 2000,
-        callback: () => {
-        if (this.alienGroup.getChildren().length > 0 && this.gameEnd === false) {
-            const aliens = this.alienGroup.getChildren()
-            const numShooters = Phaser.Math.Between(1, Math.min(aliens.length, 10))
+            delay: 2000,
+            callback: () => {
+                if (this.alienGroup.getChildren().length > 0 && this.gameEnd === false) {
+                    const aliens = this.alienGroup.getChildren()
+                    const numShooters = Phaser.Math.Between(1, Math.min(aliens.length, 10))
             
-            Phaser.Utils.Array.Shuffle(aliens)
-                .slice(0, numShooters)
-                .forEach(alien => {
-                    const bullet = this.physics.add.sprite(alien.x, alien.y, 'alienLaser').setScale(0.13)
-                    bullet.body.velocity.y = 200
-                    this.alienBulletGroup.add(bullet)
-                })
+                    Phaser.Utils.Array.Shuffle(aliens)
+                        .slice(0, numShooters)
+                        .forEach(alien => {
+                            const bullet = this.physics.add.sprite(alien.x, alien.y, 'alienLaser').setScale(0.13)
+                            bullet.body.velocity.y = 200
+                            this.alienBulletGroup.add(bullet)
+                        })
             
-            }
-        },
-        loop: true
+                }
+            },
+            loop: true
         })
+        //player and alien laser collide
         this.physics.add.overlap(this.ship, this.alienBulletGroup, function (shipHit, bulletHit) {
             this.gameEnd = true
             this.sound.play('bomb')
@@ -113,8 +126,16 @@ class GameScene extends Phaser.Scene {
                 this.scene.start('gameScene')
             })
         }.bind(this))
+        //alien laser and player missile collide
+        this.physics.add.overlap(this.missileGroup, this.alienBulletGroup, function(missile, alienLaser) {
+            const explosion = this.add.sprite(missile.x, missile.y, 'explosionAnimation');
+            explosion.play('explode');
+            missile.destroy();
+            alienLaser.destroy();
+            this.sound.play('explosion');
+        }.bind(this));
         
-
+    
     }
     update(time, delta) {
 
